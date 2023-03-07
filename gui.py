@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QLineEdit
 import traceback
 
 import sys
@@ -45,7 +45,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     
     def on_ok_clicked(self):
-        print("OK clicked")
+        src = self.srcpath.toPlainText()
+        dest = self.destpath.toPlainText()
+        textfile = self.textfile.toPlainText()
+        print(src, dest, textfile)
     
     def on_cancel_clicked(self):
         print("Cancel clicked")
