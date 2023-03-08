@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QLineEdit
-import traceback
+import os
+import shutil
 
 import sys
 
@@ -8,6 +9,7 @@ from output import Ui_MainWindow  # Replace with the name of your generated UI f
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    count = 0
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -45,10 +47,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     
     def on_ok_clicked(self):
-        src = self.srcpath.toPlainText()
-        dest = self.destpath.toPlainText()
-        textfile = self.textfile.toPlainText()
-        print(src, dest, textfile)
+        if self.count==0:
+            self.count= self.count+1
+            src = self.srcpath.toPlainText()
+            dest = self.destpath.toPlainText()
+            textfile = self.textfile.toPlainText()
+            
+            # Open the text file containing filenames
+            with open(textfile) as f:
+                # Loop through each line in the file
+                for line in f:
+                    # Strip any whitespace from the line
+                    filename = line.strip()
+
+                    # print(filename)
+                    # Build the full source and destination paths
+                    source_path = os.path.join(src, filename)
+                    destination_path = os.path.join(dest, filename)
+
+                    # Move the file
+                    shutil.copy(source_path, destination_path)
+                    for widget in QtWidgets.QApplication.allWidgets():
+                        if isinstance(widget, QtWidgets.QMainWindow):
+                            widget.close()
     
     def on_cancel_clicked(self):
         print("Cancel clicked")
