@@ -5,10 +5,24 @@ import shutil
 
 import sys
 
-from output import Ui_MainWindow  # Replace with the name of your generated UI file
+from mainwindow import Ui_MainWindow  as window1 # Replace with the name of your generated UI file
+from alert import Ui_MainWindow  as window2 # Replace with the name of your generated UI file
 
+class AlertWindow(QtWidgets.QMainWindow, window2):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        
+        # OK button
+        self.ok_2.clicked.connect(self.on_ok2_clicked)
 
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def on_ok2_clicked(self):
+        print("OK clicked")
+        for widget in QtWidgets.QApplication.allWidgets():
+            if isinstance(widget, QtWidgets.QMainWindow):
+                widget.close()
+
+class MainWindow(QtWidgets.QMainWindow, window1):
     count = 0
     def __init__(self):
         super().__init__()
@@ -53,23 +67,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             dest = self.destpath.toPlainText()
             textfile = self.textfile.toPlainText()
             
-            # Open the text file containing filenames
-            with open(textfile) as f:
-                # Loop through each line in the file
-                for line in f:
-                    # Strip any whitespace from the line
-                    filename = line.strip()
+            if src=='' or dest=='' or textfile=='':
+                print("Enter Data First")
+                self.count=0
+            else:
+                # Open the text file containing filenames
+                with open(textfile) as f:
+                    # Loop through each line in the file
+                    for line in f:
+                        # Strip any whitespace from the line
+                        filename = line.strip()
 
-                    # print(filename)
-                    # Build the full source and destination paths
-                    source_path = os.path.join(src, filename)
-                    destination_path = os.path.join(dest, filename)
+                        # print(filename)
+                        # Build the full source and destination paths
+                        source_path = os.path.join(src, filename)
+                        destination_path = os.path.join(dest, filename)
 
-                    # Move the file
-                    shutil.copy(source_path, destination_path)
-                    for widget in QtWidgets.QApplication.allWidgets():
-                        if isinstance(widget, QtWidgets.QMainWindow):
-                            widget.close()
+                        # Move the file
+                        shutil.copy(source_path, destination_path)
+                # newWindow = AlertWindow()
+                # newWindow.show()
+            
     
     def on_cancel_clicked(self):
         print("Cancel clicked")
