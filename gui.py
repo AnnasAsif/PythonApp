@@ -6,21 +6,6 @@ import time
 import sys
 
 from mainwindow import Ui_MainWindow  as window1 # Replace with the name of your generated UI file
-from alert import Ui_MainWindow  as window2 # Replace with the name of your generated UI file
-
-class AlertWindow(QtWidgets.QMainWindow, window2):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        
-        # OK button
-        self.ok_2.clicked.connect(self.on_ok2_clicked)
-
-    def on_ok2_clicked(self):
-        print("OK clicked")
-        for widget in QtWidgets.QApplication.allWidgets():
-            if isinstance(widget, QtWidgets.QMainWindow):
-                widget.close()
 
 class MainWindow(QtWidgets.QMainWindow, window1):
     count = 0
