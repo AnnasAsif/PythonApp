@@ -54,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow, window1):
             self.destpath.setText(str(directory))
 
     def on_button3_clicked(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Open File", "", "All Files (*);;Text Files (*.txt)")
+        filename, _ = QFileDialog.getOpenFileName(self, "Select File", "", "Text files (*.txt)")
         if filename:
             # Do something with the selected file
             # print(f"Selected file: {filename}")
